@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" class="page">
+
+<head>
+	<title>Mitravel</title>
+	<meta charset="UTF-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<!-- <style>body{opacity: 0;}</style> -->
+	<link rel="stylesheet" href="css/style.min.css?_v=20240206211524" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<!-- <meta name="robots" content="noindex, nofollow"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="body">
+	<div class="wrapper">
+		<header class="header">
+			<div class="header__container">
+
+			</div>
+		</header>
+
+		<main class="main">
+			<section class="hero panel-section is-active">
+				<div class="container hero__container">
+					<h1 data-watch data-watch-once class="hero__title">Колыбель Ньютона</h1>
+				</div>
+			</section>
+
+			<section class="info panel-section">
+				<div class="container info__container">
+					<h2 data-watch data-watch-once class="info__title">Терминология</h2>
+
+					<div class="info__content">
+						<p data-watch data-watch-once data-watch-threshold="0.1" class="info__text">
+							Колыбель Ньютона состоит из ряда одинаковых металлических
+							шариков, подвешенных на нитях. Когда один из шариков отклоняется
+							и отпускается, он сталкивается с соседними шариками, вызывая
+							цепную реакцию. Этот процесс иллюстрирует законы сохранения
+							энергии и импульса.
+						</p>
+						<p data-watch data-watch-once data-watch-threshold="0.4" class="info__text">
+							Она демонстрирует несколько фундаментальных законов физики.
+							Первый закон Ньютона (закон инерции) говорит о том, что объекты
+							остаются в покое или движутся равномерно прямолинейно, пока на
+							них не действует внешняя сила. В нашем случае, шарики остаются
+							неподвижными, пока один из них не будет отклонен.
+						</p>
+						<p data-watch data-watch-once data-watch-threshold="0.8" class="info__text">
+							Когда один из шариков колыбели Ньютона отклоняется и
+							отпускается, он передает свою энергию следующему шарику,
+							демонстрируя закон сохранения энергии. Также, закон сохранения
+							импульса становится явным, когда мы видим, что импульс
+							передается от одного шарика к другому без потерь.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="interaction panel-section">
+				<div class="container interaction__container">
+					<div class="interaction__panel">
+						<label for="number" class="interaction__label">
+							Friction air:
+							<input type="number" class="air interaction__input" min="0" max="1" step="0.001" value="0" />
+						</label>
+						<label for="number" class="interaction__label">
+							Number of circles:
+							<input class="interaction__input" type="number" id="number" value="5" min="2" max="6" />
+						</label>
+						<label for="size" class="interaction__label">
+							Size:
+							<input class="interaction__input" type="number" id="size" value="30" />
+						</label>
+						<label for="length" class="interaction__label">
+							Length:
+							<input class="interaction__input" type="number" id="length" value="280" />
+						</label>
+					</div>
+				</div>
+			</section>
+
+		</main>
+		<footer class="footer">
+			<div class="container footer__container">
+
+			</div>
+		</footer>
+
+	</div>
+	<script src="js/app.min.js?_v=20240206211524"></script>
+
+</body>
+
+</html>
