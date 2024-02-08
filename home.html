@@ -6,7 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta name="format-detection" content="telephone=no" />
 	<!-- <style>body{opacity: 0;}</style> -->
-	<link rel="stylesheet" href="css/style.min.css?_v=20240206211524" />
+	<link rel="stylesheet" href="css/style.min.css?_v=20240208215502" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,22 +60,45 @@
 			<section class="interaction panel-section">
 				<div class="container interaction__container">
 					<div class="interaction__panel">
-						<label for="number" class="interaction__label">
-							Friction air:
-							<input type="number" class="air interaction__input" min="0" max="1" step="0.001" value="0" />
-						</label>
-						<label for="number" class="interaction__label">
-							Number of circles:
-							<input class="interaction__input" type="number" id="number" value="5" min="2" max="6" />
-						</label>
-						<label for="size" class="interaction__label">
-							Size:
-							<input class="interaction__input" type="number" id="size" value="30" />
-						</label>
-						<label for="length" class="interaction__label">
-							Length:
-							<input class="interaction__input" type="number" id="length" value="280" />
-						</label>
+						<div class="interaction__static">
+							<label for="number" class="interaction__label">
+								Сопротивление воздуха:
+								<input type="number" class="air interaction__input" min="0" max="1" step="0.001" value="0" />
+							</label>
+							<label for="number" class="interaction__label">
+								Количество шаров:
+								<input class="interaction__input" type="number" id="number" value="5" min="2" max="6" />
+							</label>
+							<label for="size" class="interaction__label">
+								Размер шара:
+								<input class="interaction__input" type="number" id="size" value="30" />
+							</label>
+
+							<label for="timing" class="interaction__label">
+								Ускорение/замедление времени:
+								<input class="interaction__input" type="number" id="timing" value="1.8" min="0" max="3" step="0.1" />
+							</label>
+
+							<label for="length" class="interaction__label">
+								Длина нити:
+								<input class="interaction__input" type="number" id="length" value="280" hidden />
+							</label>
+						</div>
+
+						<button class="interaction__panel-expand btn-reset">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M13 16.25C12.9015 16.2505 12.8038 16.2312 12.7128 16.1935C12.6218 16.1557 12.5392 16.1001 12.47 16.03C12.3296 15.8894 12.2507 15.6987 12.2507 15.5C12.2507 15.3012 12.3296 15.1106 12.47 14.97L15.47 11.97L12.47 8.97C12.3999 8.82473 12.3784 8.6607 12.4089 8.50228C12.4393 8.34386 12.5201 8.19948 12.6391 8.09057C12.7581 7.98166 12.909 7.91403 13.0695 7.89771C13.23 7.8814 13.3915 7.91727 13.53 8L17.03 11.5C17.1705 11.6406 17.2493 11.8312 17.2493 12.03C17.2493 12.2287 17.1705 12.4194 17.03 12.56L13.53 16C13.4633 16.0756 13.3819 16.1367 13.2908 16.1797C13.1997 16.2227 13.1007 16.2466 13 16.25ZM7.5 16.25C7.30706 16.2352 7.12757 16.1455 7 16C6.87702 15.8625 6.80902 15.6845 6.80902 15.5C6.80902 15.3155 6.87702 15.1375 7 15L10 12L7 9C6.93316 8.86005 6.91135 8.70281 6.93758 8.54995C6.96381 8.39709 7.03678 8.25611 7.14645 8.14645C7.25612 8.03678 7.39709 7.9638 7.54995 7.93758C7.70282 7.91135 7.86005 7.93316 8 8L11.5 11.5C11.6405 11.6406 11.7193 11.8312 11.7193 12.03C11.7193 12.2287 11.6405 12.4194 11.5 12.56L8 16C7.87243 16.1455 7.69295 16.2352 7.5 16.25Z" fill="#DDDDDD" />
+							</svg>
+						</button>
+
+						<div class="interaction__expand visually-hidden">
+							<button class="interaction__reset btn-reset">
+								<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M14.5 3.5C16.914 4.877 18.5 7.522 18.5 10.5C18.5 12.0823 18.0308 13.629 17.1518 14.9446C16.2727 16.2602 15.0233 17.2855 13.5615 17.891C12.0997 18.4965 10.4911 18.655 8.93928 18.3463C7.38743 18.0376 5.96197 17.2757 4.84315 16.1569C3.72433 15.038 2.9624 13.6126 2.65372 12.0607C2.34504 10.5089 2.50347 8.90034 3.10897 7.43853C3.71447 5.97672 4.73985 4.72729 6.05544 3.84824C7.37103 2.96919 8.91775 2.5 10.5 2.5" stroke="#DDDDDD" stroke-linecap="round" stroke-linejoin="round" />
+									<path d="M14.5 7.5V3.5H18.5" stroke="#DDDDDD" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -88,7 +111,7 @@
 		</footer>
 
 	</div>
-	<script src="js/app.min.js?_v=20240206211524"></script>
+	<script src="js/app.min.js?_v=20240208215502"></script>
 
 </body>
 

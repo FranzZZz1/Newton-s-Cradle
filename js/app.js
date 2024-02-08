@@ -8175,6 +8175,10 @@
             var Example = Example || {};
             const canvasWidth = 1920;
             const canvasHeight = window.innerHeight;
+            var numberInput = document.querySelector("#number");
+            var sizeInput = document.querySelector("#size");
+            var lengthInput = document.querySelector("#length");
+            var timingInput = document.querySelector("#timing");
             Example.newtonsCradle = function() {
                 var Engine = matter.Engine, Render = matter.Render, Runner = matter.Runner, MouseConstraint = (matter.Body, 
                 matter.Composites, matter.MouseConstraint), Mouse = matter.Mouse, Composite = matter.Composite;
@@ -8190,45 +8194,45 @@
                         wireframes: false
                     }
                 });
-                engine.timing.timeScale = 1.8;
                 Render.run(render);
                 var runner = Runner.create();
                 Runner.run(runner, engine);
-                var numberInput = document.querySelector("#number");
-                var sizeInput = document.querySelector("#size");
-                var lengthInput = document.querySelector("#length");
                 function getInputValues() {
                     return {
-                        number: parseInt(numberInput.value) || 0,
-                        size: parseFloat(sizeInput.value) || 0,
-                        length: parseFloat(lengthInput.value) || 0
+                        number: parseInt(numberInput.value > 6 ? numberInput.value = 6 : numberInput.value) || 0,
+                        size: parseFloat(sizeInput.value > 60 ? sizeInput.value = 60 : sizeInput.value) || 30,
+                        length: parseFloat(lengthInput.value > 550 ? lengthInput.value = 550 : lengthInput.value) || 280
                     };
                 }
+                var mouse = Mouse.create(render.canvas);
+                var mouseConstraint = MouseConstraint.create(engine, {
+                    mouse,
+                    constraint: {
+                        stiffness: .2,
+                        render: {
+                            visible: false
+                        }
+                    }
+                });
                 function updateScene() {
                     var values = getInputValues();
                     Composite.clear(world);
+                    Composite.add(world, mouseConstraint);
                     const cradleHeight = values.length + values.size / 2;
                     const cradleWidth = values.number * values.size;
                     var cradleCenterX = (render.options.width - cradleWidth * 1.95) / 2;
                     var cradleCenterY = (render.options.height - cradleHeight) / 2;
-                    var cradle = Example.newtonsCradle.newtonsCradle(cradleCenterX, cradleCenterY, values.number, values.size, values.length);
+                    var cradle = Example.newtonsCradle.newtonsCradle(cradleCenterX, cradleCenterY, values.number, values.size, values.length, updateScene) || 1;
                     Composite.add(world, cradle);
-                    var mouse = Mouse.create(render.canvas), mouseConstraint = MouseConstraint.create(engine, {
-                        mouse,
-                        constraint: {
-                            stiffness: .2,
-                            render: {
-                                visible: false
-                            }
-                        }
-                    });
-                    Composite.add(world, mouseConstraint);
+                    engine.timing.timeScale = parseFloat(timingInput.value > 3 ? timingInput.value = 3 : timingInput.value) || 1;
+                    console.log(engine.timing.timeScale);
                     render.mouse = mouse;
                 }
                 updateScene();
                 numberInput.addEventListener("input", updateScene);
                 sizeInput.addEventListener("input", updateScene);
                 lengthInput.addEventListener("input", updateScene);
+                timingInput.addEventListener("input", updateScene);
                 Render.lookAt(render, {
                     min: {
                         x: 0,
@@ -8250,7 +8254,11 @@
                     }
                 };
             };
-            Example.newtonsCradle.newtonsCradle = function(xx, yy, number, size, length) {
+            const exBtn = document.querySelector(".interaction__panel-expand");
+            const exPanel = document.querySelector(".interaction__expand");
+            const exReset = document.querySelector(".interaction__reset");
+            let resetEventAdded = false;
+            Example.newtonsCradle.newtonsCradle = function(xx, yy, number, size, length, updateScene) {
                 var Composite = matter.Composite, Constraint = matter.Constraint, Bodies = matter.Bodies;
                 const input = document.querySelector(".air");
                 const updateFrictionAir = function() {
@@ -8263,9 +8271,50 @@
                     label: "Newtons Cradle"
                 });
                 var circles = [];
-                for (var i = 0; i < number; i++) {
+                var constraints = [];
+                var newLength = parseFloat(lengthInput.value);
+                function updateInputCount() {
+                    var desiredCount = parseInt(numberInput.value);
+                    var currentCount = exPanel.querySelectorAll(".interaction__input").length;
+                    while (desiredCount > currentCount) {
+                        const label = document.createElement("label");
+                        label.className = "interaction__label";
+                        label.textContent = `Длина нити №${currentCount + 1}`;
+                        const input = document.createElement("input");
+                        input.className = `interaction__input interaction__input--${currentCount + 1} interaction__input--length`;
+                        input.type = "number";
+                        input.value = newLength;
+                        label.appendChild(input);
+                        exPanel.appendChild(label);
+                        input.addEventListener("input", (function(event) {
+                            var newInputValue = parseFloat(event.target.value);
+                            if (!isNaN(newInputValue)) updateScene();
+                        }));
+                        currentCount++;
+                    }
+                    while (desiredCount < currentCount) {
+                        exPanel.removeChild(exPanel.lastChild);
+                        currentCount--;
+                    }
+                }
+                updateInputCount();
+                const inputs = document.querySelectorAll(".interaction__input--length");
+                if (!resetEventAdded) {
+                    exReset.addEventListener("click", (function() {
+                        inputs.forEach((e => {
+                            e.value = newLength;
+                            updateScene();
+                        }));
+                    }));
+                    resetEventAdded = true;
+                }
+                inputs.forEach((e => {
+                    e.value > 550 ? e.value = 550 : e.value;
+                }));
+                for (var i = 0; i < number && i < 6; i++) {
+                    let val = exPanel.querySelector(`.interaction__input--${i + 1}`).value;
                     var separation = 1.9;
-                    var circle = Bodies.circle(xx + i * (size * separation), yy + length, size, {
+                    var circle = Bodies.circle(xx + i * (size * separation), yy + parseInt(val), size, {
                         inertia: 1 / 0,
                         restitution: 1,
                         friction: 1,
@@ -8285,22 +8334,29 @@
                             x: xx + i * (size * separation),
                             y: yy
                         },
-                        bodyB: circle
+                        bodyB: circle,
+                        length: parseInt(val)
                     });
                     constraint.render.strokeStyle = "#242424";
                     constraint.render.lineWidth = 1;
                     Composite.addBody(newtonsCradle, circle);
                     Composite.addConstraint(newtonsCradle, constraint);
                     circles.push(circle);
+                    constraints.push(constraint);
+                    console.log(size);
                 }
                 return newtonsCradle;
             };
             if (typeof module !== "undefined") module.exports = Example.newtonsCradle;
             Example.newtonsCradle();
+            const expandPanel = () => {
+                exPanel.classList.toggle("visually-hidden");
+                exBtn.classList.toggle("active");
+            };
+            exBtn.addEventListener("click", expandPanel);
             new FullPage(".main", {
                 section: ".panel-section",
                 pagination: false,
-                loop: true,
                 touchLimit: 30
             });
         }));
